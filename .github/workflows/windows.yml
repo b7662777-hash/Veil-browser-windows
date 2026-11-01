@@ -61,24 +61,24 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: Verify the artifacts are real Windows builds
-        run: node scripts/check-windows-artifacts.js dist
+        run: node scripts/check-windows-artifacts.js veil-dist
 
       - name: Write SHA256SUMS.txt and SBOM.json from the built bytes
-        run: node scripts/release-evidence.js dist
+        run: npm run release:evidence
 
       - name: Show what would be published
         run: |
-          Get-ChildItem dist | Select-Object Name, Length | Format-Table -AutoSize
-          Get-Content dist/SHA256SUMS.txt
+          Get-ChildItem veil-dist | Select-Object Name, Length | Format-Table -AutoSize
+          Get-Content veil-dist/SHA256SUMS.txt
 
       - uses: actions/upload-artifact@v4
         with:
           name: veil-windows-x64
           path: |
-            dist/Veil-*-Windows-x64-Setup.exe
-            dist/Veil-*-Windows-x64-Portable.exe
-            dist/SHA256SUMS.txt
-            dist/SBOM.json
+            veil-dist/Veil-*-Windows-x64-Setup.exe
+            veil-dist/Veil-*-Windows-x64-Portable.exe
+            veil-dist/SHA256SUMS.txt
+            veil-dist/SBOM.json
           if-no-files-found: error
 
   packaged:
@@ -113,7 +113,7 @@ jobs:
       - name: Install silently into a path with spaces
         run: |
           $target = Join-Path $env:RUNNER_TEMP "Veil Install Test"
-          Start-Process -FilePath "dist/Veil-1.0.0-Windows-x64-Setup.exe" `
+          Start-Process -FilePath "veil-dist/Veil-1.0.0-Windows-x64-Setup.exe" `
             -ArgumentList '/S', "/D=$target" -Wait
           Test-Path (Join-Path $target "Veil.exe") | ForEach-Object { if (-not $_) { throw "installer did not leave Veil.exe in $target" } }
 

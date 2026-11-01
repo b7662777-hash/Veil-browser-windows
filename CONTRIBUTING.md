@@ -26,14 +26,16 @@ Prerequisites: Node.js 22 or newer, npm, git. Windows: Windows 10/11 x64. macOS:
 line tools. Linux: nothing special beyond a normal toolchain.
 
 ```powershell
+git clone https://github.com/b7662777-hash/Veil-browser-windows.git
+cd Veil-browser-windows
 npm install
 npm run tor:fetch    # downloads tor for *this* platform and verifies its signature
 npm start
 ```
 
-Clone this repository first — the URL is on the green **Code** button of the page you are reading,
-and the original project it was ported from is
-[github.com/nishant-Tiwari24/veil](https://github.com/nishant-Tiwari24/veil).
+That URL is the Windows-port repository. The original project it was ported from is
+[github.com/nishant-Tiwari24/veil](https://github.com/nishant-Tiwari24/veil), and Windows-specific
+reports belong here, not there — see [docs/UPSTREAM.md](docs/UPSTREAM.md).
 
 `npm run tor:fetch` pulls the official Tor Project expert bundle, checks the detached GPG
 signature against a pinned fingerprint, records the SHA-256 of every file in

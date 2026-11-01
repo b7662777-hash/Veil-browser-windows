@@ -26,6 +26,15 @@ name or a guess.
 document, the About box, or the release notes as implying otherwise. Questions about the original
 design belong upstream; questions about Windows behaviour belong here.
 
+## This repository (the Windows edition)
+
+| | |
+|---|---|
+| **Windows port developer and maintainer** | Gojo Kun — GitHub [`b7662777-hash`](https://github.com/b7662777-hash) (user id 232144110) |
+| **Windows edition repository** | <https://github.com/b7662777-hash/Veil-browser-windows> |
+| **Release name** | *Veil Browser for Windows* — Independent Windows Port |
+| **Licence** | MIT, upstream copyright preserved; the port adds no licence change |
+
 ## What arrived here
 
 The starting point was the upstream source archive (the `veil-main.zip` download, matching
@@ -33,7 +42,7 @@ upstream `main` around 2026-10-29). That archive contains no `.git` directory, s
 commit cannot be named from this tree — that is a limit of what was received, and it is stated
 rather than papered over. Everything before the Windows work — the engine choice, the Tor manager,
 the relay and circuit isolation, the amnesic partitions, the fingerprint surface, the UI, the
-community onion network, the ad blocker and the thirteen ADRs — is upstream's, and its authorship is
+community onion network, the ad blocker and the eleven ADRs in `docs/adr` — is upstream's, and its authorship is
 untouched in the files where it lives.
 
 ## What the Windows edition adds

@@ -1,9 +1,25 @@
+# Only the two issue forms below can be opened, so there is no blank issue that can accidentally
+# become a public vulnerability disclosure.
 blank_issues_enabled: false
+
 contact_links:
   - name: Report a security vulnerability (private)
-    url: https://github.com/nishant-Tiwari24/veil/security/advisories/new
+    url: https://github.com/b7662777-hash/Veil-browser-windows/security/advisories/new
     about: >-
-      Do NOT post leaks, de-anonymisation attacks, kill-switch or control-port bypasses here in
-      public. Use the private "Report a vulnerability" form in the Security tab of the repository
-      you downloaded from, which reaches that repository's maintainers only. See SECURITY.md for
-      what counts as a vulnerability and what to leave out of your report.
+      Never post a leak, a de-anonymisation attack, a kill-switch or control-port bypass, or any
+      other exploitable detail in a public issue. This form reaches only the maintainers of this
+      repository and opens a private advisory. SECURITY.md explains what counts as a vulnerability
+      and what to leave out of a report. Do not send Windows-port problems to the upstream
+      repository — that project's author did not build this port and cannot act on these reports.
+
+  - name: Ask a question or get help
+    url: https://github.com/b7662777-hash/Veil-browser-windows/discussions/categories/q-a
+    about: >-
+      Install problems, bridge setup, "is this behaviour normal" — Q&A in Discussions. Read
+      docs/WINDOWS_SUPPORT.md first; it covers the common Windows cases.
+
+  - name: Reviews and things you built
+    url: https://github.com/b7662777-hash/Veil-browser-windows/discussions/categories/show-and-tell
+    about: >-
+      Tell us what using Veil on Windows was like, or show a site you hosted with it. Honest
+      experience reports only — this project publishes no invented testimonials or ratings.

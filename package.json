@@ -21,11 +21,11 @@
     "release:evidence": "node scripts/release-evidence.js veil-dist"
   },
   "author": {
-    "name": "Nishant Tiwari (original Veil project)",
-    "url": "https://github.com/nishant-Tiwari24/veil"
+    "name": "Gojo Kun",
+    "url": "https://github.com/b7662777-hash/Veil-browser-windows"
   },
   "contributors": [
-    "Veil for Windows (independent port): b7662777-hash <https://github.com/b7662777-hash>"
+    "Nishant Tiwari - author of the original Veil project, https://github.com/nishant-Tiwari24/veil"
   ],
   "license": "MIT",
   "type": "commonjs",
@@ -37,14 +37,17 @@
     "@ghostery/adblocker": "^2.20.1",
     "tldts": "^7.4.19"
   },
-  "homepage": "https://github.com/nishant-Tiwari24/veil",
+  "homepage": "https://github.com/b7662777-hash/Veil-browser-windows",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nishant-Tiwari24/veil.git"
+    "url": "https://github.com/b7662777-hash/Veil-browser-windows.git"
   },
   "build": {
     "appId": "io.github.nishanttiwari24.veil",
     "productName": "Veil",
+    "directories": {
+      "output": "veil-dist"
+    },
     "copyright": "Copyright (c) 2026 Nishant Tiwari - original Veil project (MIT). Windows port: independent, unsigned build, not published or endorsed by the original author.",
     "artifactName": "Veil-${version}-${os}-${arch}.${ext}",
     "files": [
@@ -55,6 +58,7 @@
       "community/community.pub.pem",
       "community/sample-site/**",
       "package.json",
+      "LICENSE",
       "!**/*.key"
     ],
     "mac": {

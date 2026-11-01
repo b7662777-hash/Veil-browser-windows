@@ -18,11 +18,12 @@ nothing in this file should be read as their endorsement.
 
 ## Windows port — this repository
 
-The Windows work is a separate contribution by a separate person: the GitHub account that owns
-and pushes this repository. Its identity is the account shown as the owner of this repository and
-in [the commit history](../../commits/main); no name is asserted here beyond what that record
-shows, because inventing one would be a false credit to somebody and a false claim about somebody
-else.
+The Windows work is a separate contribution by a separate person: **Gojo Kun**, GitHub
+[`b7662777-hash`](https://github.com/b7662777-hash), the owner of this repository. That identity is
+the account authenticated on the machine that built these binaries (`gh api user` returns the login
+and the numeric user id), and the Windows work is attributable to it commit by commit in
+[the commit history](https://github.com/b7662777-hash/Veil-browser-windows/commits/main). The commit
+author email is GitHub's noreply address, not a personal one.
 
 What the Windows port is responsible for — everything in this list is Windows-only work and none of
 it is upstream's:

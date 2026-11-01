@@ -44,9 +44,12 @@ Report these privately, not as an issue:
 
 ## How to report privately
 
-1. **GitHub private vulnerability reporting** is the preferred route. On the repository page:
-   **Security → Report a vulnerability**. The report is visible only to you and the maintainers,
-   and it becomes a private advisory you can later publish jointly.
+1. **GitHub private vulnerability reporting** is the preferred route, and it is switched on for
+   this repository: <https://github.com/b7662777-hash/Veil-browser-windows/security/advisories/new>
+   (the same form is reachable from **Security → Report a vulnerability**). The report is visible
+   only to you and the maintainers, and it becomes a private advisory you can later publish jointly.
+   That URL was checked on 2026-11-01; if it stops resolving, the form has been turned off and the
+   next route applies.
 2. If the Security tab offers no reporting form, the repository's private reporting is not enabled.
    In that case open **no** issue, and send only the minimum detail needed to reach you so a
    maintainer can respond — do not put the exploit itself in a public issue.

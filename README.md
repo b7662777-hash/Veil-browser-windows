@@ -61,8 +61,8 @@ copyright notice preserved.
 | Original project | **Veil** by [Nishant Tiwari](https://github.com/nishant-Tiwari24) |
 | Original repository | <https://github.com/nishant-Tiwari24/veil> (MIT) |
 | Upstream release this port is based on | `v1.0.0` — its assets are macOS (`arm64`, `x64`) and Linux (`.AppImage`) only |
-| Windows port | developed and maintained by the GitHub account that owns this repository; its commits are the Windows work in [the commit history](../../commits/main) |
-| Windows edition repository | this repository — see [Releases](../../releases) for the built installers |
+| Windows port | developed and maintained by **Gojo Kun** ([`b7662777-hash`](https://github.com/b7662777-hash)) — the Windows-only work is in [the commit history](https://github.com/b7662777-hash/Veil-browser-windows/commits/main) |
+| Windows edition repository | <https://github.com/b7662777-hash/Veil-browser-windows> — see [Releases](https://github.com/b7662777-hash/Veil-browser-windows/releases) for the built installers |
 
 The upstream author did **not** implement the Windows support and is **not** responsible for this
 port. The Windows port does not change the licence, does not remove upstream copyright notices,
@@ -71,7 +71,7 @@ and does not claim ownership of upstream code. Full breakdown:
 
 ## Download for Windows
 
-Get the latest Windows build from **[Releases](../../releases)**. Each release ships the two
+Get the latest Windows build from **[Releases](https://github.com/b7662777-hash/Veil-browser-windows/releases)**. Each release ships the two
 files below plus `SHA256SUMS.txt` and `SBOM.json`.
 
 | File | What it is | Notes |
@@ -88,7 +88,7 @@ against the Tor Project signing key at build time — see
 
 ## Installing on Windows
 
-1. Download the Setup or Portable build from [Releases](../../releases).
+1. Download the Setup or Portable build from [Releases](https://github.com/b7662777-hash/Veil-browser-windows/releases).
 2. **Verify the hash** (see the next section) before running anything.
 3. Setup: run the `.exe`. If SmartScreen appears, choose **More info → Run anyway** — that
    prompt exists because the build is unsigned, and only you can decide to proceed.
@@ -361,14 +361,15 @@ packet captures to a report.
 ## Community & feedback
 
 ### Give your review
-If you use Veil on Windows, tell us what happened — in [an Issue](../../issues) or, once
-[Discussions](../../discussions) is enabled on this repository, there. Say what you expected, what
-happened, and which build you used. Reviews are user opinions: this project will never invent
-testimonials, ratings, download counts or "community praise", and nothing in this README is a
-review.
+If you use Veil on Windows, tell us what happened — in
+[Discussions → Show and tell](https://github.com/b7662777-hash/Veil-browser-windows/discussions/categories/show-and-tell)
+or in [an Issue](https://github.com/b7662777-hash/Veil-browser-windows/issues). Say what you
+expected, what happened, and which build you used. Reviews are user opinions: this project will
+never invent testimonials, ratings, download counts or "community praise", and nothing in this
+README is a review. There is no rating system here to earn.
 
 ### Report a bug
-Use **[→ Report a bug](../../issues/new?template=bug_report.yml)**. The form asks for the Veil
+Use **[→ Report a bug](https://github.com/b7662777-hash/Veil-browser-windows/issues/new?template=bug_report.yml)**. The form asks for the Veil
 version, which build (Setup, Portable or from source), Windows version and architecture, the steps
 you took, what you expected, what actually happened, how often it repeats, and where Tor was in
 its bootstrap when it happened. That is enough to reproduce most reports without you having to
@@ -378,16 +379,18 @@ guess what we need.
 [SECURITY.md](SECURITY.md). The bug form refuses that category on purpose.
 
 ### Request a feature
-Use **[→ Request a feature](../../issues/new?template=feature_request.yml)**: the problem you have,
+Use **[→ Request a feature](https://github.com/b7662777-hash/Veil-browser-windows/issues/new?template=feature_request.yml)**: the problem you have,
 the solution you suggest, who benefits, and what alternatives you considered. Feature requests that
 would weaken anonymity (for example a "remember my sites" option or a per-site user agent) get
 extra scrutiny, because that is the trade this project exists to make.
 
 ### Ask questions & get help
 Start with [docs/WINDOWS_SUPPORT.md](docs/WINDOWS_SUPPORT.md) and the
-[documentation index](#documentation). Then search [existing Issues](../../issues) — someone may
-have hit the same thing. Ask as an Issue with the `question` label, or in
-[Discussions](../../discussions) if this repository has them enabled. There is no Discord, Telegram,
+[documentation index](#documentation). Then search [existing Issues](https://github.com/b7662777-hash/Veil-browser-windows/issues) and
+[Discussions → Q&A](https://github.com/b7662777-hash/Veil-browser-windows/discussions/categories/q-a) — someone may
+have hit the same thing. Discussions are enabled on this repository
+([all categories](https://github.com/b7662777-hash/Veil-browser-windows/discussions)): General, Q&A, Ideas,
+Show and tell, Announcements and Polls. There is no Discord, Telegram,
 Matrix, Reddit or email list for Veil, so none is linked here; if that changes it will be a real
 link, not a decorative button.
 
@@ -398,9 +401,10 @@ Small, reversible changes with measured numbers beat big claims.
 
 ## Reporting a security vulnerability
 
-**[SECURITY.md](SECURITY.md)** — GitHub private vulnerability reporting
-(**Security → Report a vulnerability** on this repository). Not a public Issue, not a Discussion.
-There is no SLA and no bounty, and the project's standing caveat applies: Veil is not audited.
+**[SECURITY.md](SECURITY.md)** — GitHub private vulnerability reporting:
+**[→ Report a vulnerability (private)](https://github.com/b7662777-hash/Veil-browser-windows/security/advisories/new)**.
+Not a public Issue, not a Discussion. There is no SLA and no bounty, and the project's standing
+caveat applies: Veil is not audited.
 
 ## Licence & third-party notices
 

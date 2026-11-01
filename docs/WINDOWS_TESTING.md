@@ -10,7 +10,7 @@ build installed here), tor 0.4.9.15 from the official Windows bundle.
 | unit | `npm run test:unit` | nothing (no tor, no network) | 51 pass / 0 fail |
 | integration | `npm run test:live` | a tor for this platform | 16 pass / 0 fail, ~30 s |
 | whole suite | `npm test` | a tor for this platform | 67 pass / 0 fail / 0 skipped, ~35 s |
-| in-app security | `npm run selftest` | Electron + tor | 37 PASS, 1 KNOWN, 0 FAIL, exit 0 |
+| in-app security | `npm run selftest` | Electron + tor | 43 checks: 42 PASS, 1 KNOWN, 0 FAIL, exit 0 |
 
 `npm run tor:fetch` puts tor, the pluggable transport, the GeoIP databases and their licences
 under `bin/win32-x64/`. Without it the live layer is **reported as skipped**, not as passing.
@@ -81,7 +81,7 @@ FAIL  …
 
 `KNOWN` is a limitation measured in that very run and written up in
 [`WINDOWS_SECURITY_AUDIT.md`](WINDOWS_SECURITY_AUDIT.md). A KNOWN line is never counted as a pass
-and always prints its reason; the summary distinguishes the two explicitly, e.g. *"All 37 checks
+and always prints its reason; the summary distinguishes the two explicitly, e.g. *"All 42 checks
 that could be decided here passed; 1 limitation(s) are reported separately as KNOWN, not as
 passing."* `npm run check`-style exit codes stay 0 only when nothing failed.
 

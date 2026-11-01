@@ -156,11 +156,11 @@ capture to a public issue.
 
 ## Getting help
 
-Search [existing issues](../../issues) first — the failure you are seeing is often already filed.
-Then open **[→ Report a bug](../../issues/new?template=bug_report.yml)** with the version, which
+Search [existing issues](https://github.com/b7662777-hash/Veil-browser-windows/issues) first — the failure you are seeing is often already filed.
+Then open **[→ Report a bug](https://github.com/b7662777-hash/Veil-browser-windows/issues/new?template=bug_report.yml)** with the version, which
 build (Setup, Portable or from source), your Windows version and architecture, the steps, and what
 you saw. Feature requests go to
-**[→ Request a feature](../../issues/new?template=feature_request.yml)**.
+**[→ Request a feature](https://github.com/b7662777-hash/Veil-browser-windows/issues/new?template=feature_request.yml)**.
 
 Security problems are **not** issues: use the private route in [SECURITY.md](../SECURITY.md).
 
