@@ -1,0 +1,154 @@
+name: Windows
+
+# Windows is the newest port and the one most likely to break quietly: a tor that cannot be found,
+# a transport that is really a Linux binary, an installer that ships without its GeoIP file. Every
+# step here runs on a Windows runner, because a green Ubuntu job proves nothing about those.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and verify (Windows x64)
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Syntax and data checks
+        run: npm run check
+
+      # Deterministic: no network, no tor, no Electron. These are the tests a pull request can
+      # rely on, so they run before anything that could fail for environmental reasons.
+      - name: Platform, protocol and isolation unit tests
+        run: npm run test:unit
+
+      - name: Dependency audit — critical only
+        run: npm audit --audit-level=critical
+
+      # The full audit is printed but does not fail the build: advisories in build-only
+      # dependencies are reviewed by a human, and a red X on an unrelated advisory teaches people
+      # to ignore the job. The report still lands in the log as evidence.
+      - name: Dependency audit — full report (informational)
+        run: npm audit --audit-level=low
+        continue-on-error: true
+
+      - name: Acquire the signed Tor bundle for this runner
+        # Downloads the official tor-expert-bundle, verifies the detached signature against the
+        # pinned Tor fingerprint, and writes bin/win32-x64/manifest.json with every file's SHA-256.
+        # Nothing is fetched at run time by the app itself.
+        run: npm run tor:fetch
+
+      - name: Build installer and portable executable
+        run: npm run dist
+        env:
+          # Unsigned on purpose: there is no Windows signing certificate for this project, and the
+          # release says so. Discovery must not be attempted, let alone faked.
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+
+      - name: Verify the artifacts are real Windows builds
+        run: node scripts/check-windows-artifacts.js dist
+
+      - name: Write SHA256SUMS.txt and SBOM.json from the built bytes
+        run: node scripts/release-evidence.js dist
+
+      - name: Show what would be published
+        run: |
+          Get-ChildItem dist | Select-Object Name, Length | Format-Table -AutoSize
+          Get-Content dist/SHA256SUMS.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: veil-windows-x64
+          path: |
+            dist/Veil-*-Windows-x64-Setup.exe
+            dist/Veil-*-Windows-x64-Portable.exe
+            dist/SHA256SUMS.txt
+            dist/SBOM.json
+          if-no-files-found: error
+
+  packaged:
+    name: Run the packaged app (Windows x64)
+    # Manual only: it needs the Tor network reachable from the runner, and a GUI session for
+    # Electron. Both are true on windows-latest today, but a blocked runner must not turn a pull
+    # request red, and a skipped network test must never look like a pass — so it is dispatched.
+    if: github.event_name == 'workflow_dispatch'
+    needs: build
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run tor:fetch
+
+      - name: Live tor integration and transport spawn tests
+        # Starts a real tor: bootstrap, control authentication, IsolateSOCKSAuth producing two
+        # circuits, GeoIP, restart, clean shutdown, crash-then-sweep, and the transport binaries
+        # actually executing on Windows.
+        run: npm run test:live
+
+      - name: Build for this runner
+        run: npm run dist
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+
+      - name: Install silently into a path with spaces
+        run: |
+          $target = Join-Path $env:RUNNER_TEMP "Veil Install Test"
+          Start-Process -FilePath "dist/Veil-1.0.0-Windows-x64-Setup.exe" `
+            -ArgumentList '/S', "/D=$target" -Wait
+          Test-Path (Join-Path $target "Veil.exe") | ForEach-Object { if (-not $_) { throw "installer did not leave Veil.exe in $target" } }
+
+      - name: Run the anonymity self-test from the installed app
+        # A packaged GUI build has no console, so the report goes to a file (that is what
+        # VEIL_SELFTEST_REPORT is for) and is uploaded as the evidence for this job.
+        run: |
+          $exe = Join-Path $env:RUNNER_TEMP "Veil Install Test\Veil.exe"
+          $env:VEIL_SELFTEST = '1'
+          $env:VEIL_SELFTEST_REPORT = Join-Path $env:GITHUB_WORKSPACE "selftest-installed.log"
+          & $exe
+          "exit code: $LASTEXITCODE"
+        continue-on-error: true
+
+      - name: Count the results, and fail on any FAIL line
+        shell: bash
+        run: |
+          test -s selftest-installed.log || { echo "the installed app produced no report at all"; exit 1; }
+          grep -c '^PASS' selftest-installed.log | sed 's/^/PASS lines: /'
+          grep -c '^KNOWN' selftest-installed.log | sed 's/^/KNOWN lines: /' || true
+          if grep -q '^FAIL' selftest-installed.log; then
+            echo "failing checks:"; grep '^FAIL' selftest-installed.log; exit 1
+          fi
+
+      - name: The install must leave nothing behind
+        shell: bash
+        run: |
+          left=$(find "$TEMP" -maxdepth 1 -name 'veil-tor-*' | wc -l)
+          echo "veil-tor-* folders still in TEMP: $left"
+          [ "$left" -eq 0 ] || { echo "tor's data folder survived the run"; exit 1; }
+          tasklist //FI "IMAGENAME eq tor.exe" 2>/dev/null | grep -i "tor.exe" && { echo "tor still running"; exit 1; } || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: selftest-installed-report
+          path: selftest-installed.log
+          if-no-files-found: error

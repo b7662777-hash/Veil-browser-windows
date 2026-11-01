@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability (private)
+    url: https://github.com/nishant-Tiwari24/veil/security/advisories/new
+    about: >-
+      Do NOT post leaks, de-anonymisation attacks, kill-switch or control-port bypasses here in
+      public. Use the private "Report a vulnerability" form in the Security tab of the repository
+      you downloaded from, which reaches that repository's maintainers only. See SECURITY.md for
+      what counts as a vulnerability and what to leave out of your report.

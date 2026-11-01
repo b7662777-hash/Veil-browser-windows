@@ -1,0 +1,49 @@
+# --- dependencies and build output ---
+node_modules/
+dist/
+veil-dist/
+out/
+shots/
+
+# --- downloaded Tor runtimes: acquired by `npm run tor:fetch`, verified, never committed ---
+bin/
+
+# --- local research and scratch; not part of the project ---
+_research/
+research/
+.tmp/
+*.tmp/
+
+# --- debug logs and test output ---
+*.log
+selftest-*.log
+
+# --- temporary Tor data and throwaway profiles left by a run in the working tree ---
+veil-tor-*/
+veil-selftest-*/
+
+# --- private keys, credentials and local environment: nothing here belongs in git ---
+.env
+.env.*
+*.key
+*.p12
+*.pfx
+*.asc.bak
+id_rsa*
+id_ed25519*
+*.pem.key
+# the community directory's public key (community.pub.pem) is deliberately tracked
+
+# --- machine and editor noise ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# video scripts (not part of the project)
+FINAL_SCRIPT.md
+VIDEO_SCRIPT.md
+teleprompter.html
+docs/TELEPROMPTER.txt

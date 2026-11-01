@@ -1,0 +1,19 @@
+{
+  "targets": {
+    "win32-x64": {
+      "bundle": "tor-expert-bundle-windows-x86_64",
+      "version": "16.0",
+      "sha256": "2ee123e9167318a3742778ff704e75f01d4780f05a14522d451fe011011077c4",
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "linux-x64": {
+      "bundle": "tor-expert-bundle-linux-x86_64",
+      "version": "16.0",
+      "sha256": "cc950ebe9acb80188325c3a2cd8817def7dd7237d6fdcd861bb87b234a0cb2fd",
+      "platform": "linux",
+      "arch": "x64"
+    }
+  },
+  "pinnedFingerprint": "EF6E286DDA85EA2A4BA7DE684E2C6E8793298290"
+}

@@ -1,0 +1,88 @@
+name: Feature request
+description: Something you would like Veil to do, or do better
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Veil is deliberately small: a Tor browser with per-site circuits and no storage. Every
+        feature costs attack surface, so the useful questions are what the feature is *for*.
+
+        Before writing, two things worth knowing:
+        * Some requests are answered by Tor Browser rather than Veil — the Tor Project has the
+          people, the time and the audited hardened browser. If you want advanced bridges,
+          custom relay pinning, or a tamper-resistant updater, that is theirs.
+        * Veil is an educational project that is not security-audited. Requests that trade that
+          honesty for convenience ("make the warning go away", "sign it so SmartScreen stops")
+          will be closed.
+  - type: input
+    id: title
+    attributes:
+      label: The feature in one line
+      description: Say it the way you would put it in a title, not "add a button".
+      placeholder: Remember which sites I bookmarked between sessions
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is the problem?
+      description: |
+        The thing you are trying to do and cannot. A scene is better than a category — who you
+        are, what you were trying to accomplish, where Veil stopped helping.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should happen instead?
+      description: |
+        How you imagine using it, step by step. Include what the window should look like if that
+        matters, and what should happen when it goes wrong (no network, Tor refuses, etc.).
+    validations:
+      required: true
+  - type: textarea
+    id: benefit
+    attributes:
+      label: Who does this help, and what do they get?
+      description: |
+        Fewer clicks? A censorship situation that becomes possible? A leak that closes? Say which,
+        because the answer decides how much complexity is worth it.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What else did you try?
+      description: |
+        A setting in Veil that nearly does it, another application, a workaround you use today.
+        This is often the best part of the request: if a flag already covers it, the fix is
+        documentation, not code.
+  - type: dropdown
+    id: privacy-impact
+    attributes:
+      label: How do you see this affecting anonymity?
+      description: Not a trap — most features make it worse in some way, and saying so honestly helps.
+      options:
+        - Makes it better (closes a leak, adds a check)
+        - No effect that I can think of
+        - Makes it slightly worse, and is worth it — here is why (explain below)
+        - I have no idea
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: |
+        If you chose "makes it slightly worse", explain the trade here. Also: whether you would
+        like to build it, and how far you have got — a prototype is worth ten wishlists.
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I checked the README, the docs and the open issues, and this is not already there.
+          required: true
+        - label: I am not asking Veil to hide its "not security-audited" warnings or claim Tor Browser parity.
+          required: true

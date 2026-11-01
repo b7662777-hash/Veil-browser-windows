@@ -1,0 +1,149 @@
+{
+  "name": "veil",
+  "version": "1.0.0",
+  "description": "Veil Browser for Windows - independent Windows port of Veil, an anonymous browser built on Tor onion routing",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "community:keygen": "node scripts/community-keygen.js",
+    "community:sign": "node scripts/community-sign.js",
+    "adblock:update": "node scripts/adblock-update.js",
+    "tor:fetch": "node scripts/fetch-tor.js",
+    "bridges:setup": "node scripts/bridges-setup.js",
+    "bridges:check": "node scripts/bridges-setup.js --check",
+    "check": "node scripts/check.js",
+    "test": "node --test --test-reporter=spec tests",
+    "test:unit": "node --test --test-reporter=spec tests/platform.test.js tests/bridge-lines.test.js tests/control.test.js tests/relay-isolation.test.js",
+    "test:live": "node --test --test-reporter=spec tests/tor-live.test.js tests/transport-spawn.test.js",
+    "selftest": "node scripts/electron-run.js VEIL_SELFTEST=1 .",
+    "debug": "node scripts/electron-run.js VEIL_DEBUG=1 .",
+    "dist": "electron-builder --publish never",
+    "release:evidence": "node scripts/release-evidence.js veil-dist"
+  },
+  "author": {
+    "name": "Nishant Tiwari (original Veil project)",
+    "url": "https://github.com/nishant-Tiwari24/veil"
+  },
+  "contributors": [
+    "Veil for Windows (independent port): b7662777-hash <https://github.com/b7662777-hash>"
+  ],
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0"
+  },
+  "dependencies": {
+    "@ghostery/adblocker": "^2.20.1",
+    "tldts": "^7.4.19"
+  },
+  "homepage": "https://github.com/nishant-Tiwari24/veil",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nishant-Tiwari24/veil.git"
+  },
+  "build": {
+    "appId": "io.github.nishanttiwari24.veil",
+    "productName": "Veil",
+    "copyright": "Copyright (c) 2026 Nishant Tiwari - original Veil project (MIT). Windows port: independent, unsigned build, not published or endorsed by the original author.",
+    "artifactName": "Veil-${version}-${os}-${arch}.${ext}",
+    "files": [
+      "src/**",
+      "assets/**",
+      "community/directory.json",
+      "community/directory.sig",
+      "community/community.pub.pem",
+      "community/sample-site/**",
+      "package.json",
+      "!**/*.key"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "identity": null,
+      "extraResources": [
+        {
+          "from": "bin",
+          "to": "bin",
+          "filter": [
+            "darwin-*/**"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "category": "Network",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "extraResources": [
+        {
+          "from": "bin",
+          "to": "bin",
+          "filter": [
+            "linux-*/**"
+          ]
+        }
+      ]
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "legalTrademarks": "Tor is a trademark of The Tor Project, Inc.",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "extraResources": [
+        {
+          "from": "bin",
+          "to": "bin",
+          "filter": [
+            "win32-*/**"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "artifactName": "Veil-${version}-Windows-${arch}-Setup.${ext}",
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": false,
+      "shortcutName": "Veil",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "license": "LICENSE"
+    },
+    "portable": {
+      "artifactName": "Veil-${version}-Windows-${arch}-Portable.${ext}",
+      "requestExecutionLevel": "user"
+    }
+  }
+}

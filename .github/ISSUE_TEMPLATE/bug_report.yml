@@ -1,0 +1,159 @@
+name: Bug report
+description: Something Veil does not do the way it should — crash, install failure, Tor problem, wrong behaviour
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to write this down.
+
+        **Please do not report security vulnerabilities here.** This form and every GitHub issue
+        are public. Use the private route instead — the **Security** tab of this repository,
+        **Report a vulnerability** — which is described in full in `SECURITY.md` at the root of
+        this repository. Use it for anything that could put a Veil user at risk: a leak, a way to
+        de-anonymise someone, a control-port or routing bypass.
+
+        A few practical notes before you write:
+        * Veil keeps no logs on disk, so "the log file" usually does not exist. What helps is
+          what you saw on screen, and the output of running Veil from a terminal (shown below).
+        * Screenshots are helpful — redact anything you would not want public: the onion address
+          of a site you host, usernames, real names, page content.
+        * Do not attach your Tor `state` folder, cookies, bookmarks or a capture of your traffic.
+          Veil is supposed to leave none of those behind, and if it did, that is a security report.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened
+      description: One or two sentences. Save the detail for the steps below.
+      placeholder: Veil opens, the Tor panel stays at "connecting", and every page fails to load.
+    validations:
+      required: true
+  - type: input
+    id: veil-version
+    attributes:
+      label: Veil version
+      description: The download you are running. The About panel and the release page both show it.
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: distribution
+    attributes:
+      label: Which build
+      description: They are separate files and take different paths through the code.
+      options:
+        - Windows installer (Veil-…-Windows-x64-Setup.exe)
+        - Windows portable (Veil-…-Windows-x64-Portable.exe)
+        - macOS (dmg)
+        - Linux (AppImage)
+        - From source (npm start)
+    validations:
+      required: true
+  - type: dropdown
+    id: windows
+    attributes:
+      label: Windows version
+      description: Windows 7/8/8.1 are not supported; say so here if that is what you are on.
+      options:
+        - Windows 11
+        - Windows 10
+        - macOS
+        - Linux
+        - Other (say below)
+    validations:
+      required: true
+  - type: dropdown
+    id: arch
+    attributes:
+      label: System architecture
+      description: Settings → System → About → System type. Veil ships for 64-bit x64 only.
+      options:
+        - x64 (64-bit)
+        - ARM64 (Windows on ARM)
+        - x86 (32-bit)
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The shortest path you know from a fresh start to the problem.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      description: What Veil is supposed to do, in your words.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What you saw instead
+      description: Include the exact wording of any message in the window, including the Tor panel text.
+    validations:
+      required: true
+  - type: dropdown
+    id: reproducibility
+    attributes:
+      label: How often
+      options:
+        - Every time
+        - Most of the time
+        - Once in a while
+        - Once, and I have not been able to repeat it
+    validations:
+      required: true
+  - type: textarea
+    id: tor-state
+    attributes:
+      label: Where the Tor connection was
+      description: |
+        Veil tells you this in the connection panel. It matters more than it looks: a page that
+        fails while Tor is at 40% is the kill switch working, not a bug.
+      placeholder: |
+        Direct connection (no bridge) — panel said "connecting… 10%" and never moved.
+        Bridge (obfs4) — reached 100%, then the page failed.
+        I don't know / the panel was already closed.
+  - type: textarea
+    id: output
+    attributes:
+      label: Output, if you can get it
+      description: |
+        Optional, and often the single most useful thing. Run Veil from PowerShell (installer) or
+        from a terminal and paste what appears, including `[tor]` and `[veil]` lines.
+        For a packaged install:
+
+        ```powershell
+        & "$env:LOCALAPPDATA\Programs\Veil\Veil.exe" 2>&1 | Tee-Object veil-output.txt
+        ```
+
+        Redact anything personal before posting.
+      render: shell
+  - type: textarea
+    id: environment
+    attributes:
+      label: Anything else about this machine
+      description: |
+        Antivirus or endpoint protection in use, corporate or school network, VPN, a firewall that
+        blocks outbound ports, country or censorship situation, and whether Tor works for you at all
+        (for example in Tor Browser). Any of these can explain a failure without Veil being broken.
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: This is not a security vulnerability — it is a normal bug, and I am reporting it in public on purpose.
+          required: true
+        - label: I checked that no similar issue is already open.
+          required: true
+        - label: I removed anything personal from screenshots, output and attachments.
+          required: true
+        - label: This is about Veil itself, not about the Tor network or a website I visited.
+          required: false
