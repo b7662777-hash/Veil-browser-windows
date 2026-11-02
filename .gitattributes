@@ -1,0 +1,18 @@
+# Byte-exact artifacts: git must not touch the line endings of these files.
+#
+# community/directory.json is verified with crypto.verify() over its literal bytes — by
+# scripts/check.js and, at run time, by src/main/community.js. The signature in
+# community/directory.sig covers the LF bytes that upstream committed, so any checkout that
+# converts them to CRLF (the default on Windows when core.autocrlf=true) makes both checks fail
+# with "signature does not verify". The data is not corrupt; the checkout is.
+#
+# The fix is to pin the bytes, not to re-sign: there is no community.key in this repository and
+# re-signing upstream's directory with a new keypair would misrepresent who signed it.
+community/directory.json        -text
+community/directory.sig         -text
+community/community.pub.pem     -text
+
+# Bundled binary and hashed payloads — already detected as binary by git, pinned explicitly so a
+# future checkout policy can never rewrite them.
+assets/adblock.engine           -text
+assets/fonts/*.ttf              -text
