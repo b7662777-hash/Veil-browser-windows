@@ -5,7 +5,23 @@ commit was written.
 
 ## Unreleased
 
-Nothing staged for the next version yet.
+### Fixed — Windows
+
+* **A poisoned tor folder could not be recovered after all.** `restoreAccess()` granted
+  `USER:(OI)(CI)F` recursively, but NTFS ignores the `(OI)(CI)` flags on a *file*, so a file the
+  old build left with an empty DACL stayed locked: `icacls` reported success and the wipe still
+  failed with `EPERM`, which is to say tor's keys sat in the temp folder forever — the exact
+  outcome the recovery path was written to prevent. It now makes a second pass with a plain
+  `USER:F`, the form that applies to files. Found because the unit test for this scenario failed
+  on a GitHub Windows runner; investigating that failure is what exposed the defect.
+* **`community/directory.json` signature failures on fresh clones.** The signature covers the
+  file's literal LF bytes, and a checkout with `core.autocrlf=true` rewrote them to CRLF, so both
+  `scripts/check.js` and the run-time verification in `src/main/community.js` reported a bad
+  signature. A `.gitattributes` now pins those bytes; nothing was re-signed, because the private
+  key is not in this repository and re-signing upstream's directory would misattribute it.
+* The ACL unit test now poisons the files the way the old build did and checks that the damage
+  took hold before asserting the repair, so a machine that cannot reproduce it reports the test as
+  **skipped with a reason** instead of passing or failing on an environment quirk.
 
 ## 1.0.0 — 2026-11-01
 

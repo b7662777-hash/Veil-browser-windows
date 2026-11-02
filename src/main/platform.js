@@ -317,6 +317,11 @@ function restoreAccess(dir) {
   if (!user) return { ok: false, method: 'icacls', error: new Error('no username in the environment; cannot build an ACL') }
   try {
     execFileSync('icacls', [dir, '/grant:r', `${user}:(OI)(CI)F`, '/t', '/c'], { stdio: 'pipe', windowsHide: true })
+    // A second pass, with a plain F. Measured: `(OI)(CI)` on a *file* is ignored by NTFS, so the
+    // inheritable grant above walks over a file left with an empty DACL — icacls reports success,
+    // and deleting that file still fails EPERM. Plain `F` is the form that applies to a file, and
+    // this recovery exists precisely for files the old build left with no usable entry.
+    execFileSync('icacls', [dir, '/grant', `${user}:F`, '/t', '/c'], { stdio: 'pipe', windowsHide: true })
     return { ok: true, method: 'icacls' }
   } catch (err) {
     return { ok: false, method: 'icacls', error: err }
@@ -385,6 +390,6 @@ module.exports = {
   OWNER_FILE, ownerToken, isStaleDir, sweepStale,
   removeTree, sleepSync, RETRYABLE,
   spawnOptions, signalTerminate, signalForce, waitForExit,
-  protectFile, protectDirEmpty, describeTorInstallError,
+  protectFile, protectDirEmpty, restoreAccess, describeTorInstallError,
   windowChrome, osName,
 }

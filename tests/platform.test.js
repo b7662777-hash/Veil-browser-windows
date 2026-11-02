@@ -332,17 +332,31 @@ test('a directory is protected while empty, and its later contents stay deletabl
 // take the ACL back and finish the wipe instead of logging a failure once a day forever.
 test('a tor folder poisoned by the old ACL bug is recovered and wiped, not left holding keys', {
   skip: P.isWindows ? false : 'icacls poisoning is Windows-only'
-}, () => {
+}, (t) => {
   const root = tempDir('veil-test-poison-')
+  const lockedOut = file => { try { fs.readFileSync(file); return false } catch { return true } }
   try {
     const dir = path.join(root, 'veil-test-poison-old')
     fs.mkdirSync(dir)
-    fs.writeFileSync(path.join(dir, P.OWNER_FILE), JSON.stringify({ pid: 0x7ffffffe, boot: 1 }))
-    fs.writeFileSync(path.join(dir, 'state'), 'tor state')
-    require('child_process').execFileSync('icacls',
-      [dir, '/inheritance:r', '/grant:r', `${process.env.USERNAME}:F`], { stdio: 'pipe', windowsHide: true })
-    // Reproduce the damage before asserting the repair.
-    assert.throws(() => fs.readFileSync(path.join(dir, P.OWNER_FILE)), 'the marker must really be locked away')
+    const marker = path.join(dir, P.OWNER_FILE)
+    const state = path.join(dir, 'state')
+    fs.writeFileSync(marker, JSON.stringify({ pid: 0x7ffffffe, boot: 1 }))
+    fs.writeFileSync(state, 'tor state')
+    // Reproduce the damage as the old build actually caused it. It protected the folder after
+    // writing into it, and every file already inside was left with an empty DACL — the state
+    // platform.js describes above restoreAccess. Stripping inheritance from the *directory*
+    // only produces that on machines which propagate the removal to existing children, and a CI
+    // image that does not propagate it silently turns this test into a failure about the runner
+    // rather than about Veil. So the files themselves are poisoned, and the precondition is
+    // checked before anything is asserted.
+    for (const f of [marker, state]) {
+      try { require('child_process').execFileSync('icacls', [f, '/inheritance:r'], { stdio: 'pipe', windowsHide: true }) } catch {}
+    }
+    if (!lockedOut(marker)) {
+      t.skip('this machine still reads a file whose DACL is empty, so the recovery path cannot be exercised here')
+      return
+    }
+    assert.throws(() => fs.readFileSync(marker), 'the marker must really be locked away')
     assert.throws(() => fs.rmSync(dir, { recursive: true, force: true }), 'and undeletable')
     assert.ok(fs.existsSync(dir), 'the naive wipe leaves it behind — which is the bug being fixed')
 
@@ -359,8 +373,7 @@ test('a tor folder poisoned by the old ACL bug is recovered and wiped, not left 
   } finally {
     // Own cleanup, including of anything this test damaged on purpose.
     try { fs.rmSync(root, { recursive: true, force: true }) } catch {
-      require('child_process').execFileSync('icacls',
-        [root, '/grant:r', `${process.env.USERNAME}:(OI)(CI)F`, '/t', '/c'], { stdio: 'pipe', windowsHide: true })
+      P.restoreAccess(root)
       fs.rmSync(root, { recursive: true, force: true })
     }
   }
